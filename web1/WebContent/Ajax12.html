@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HB 직원 관리 고객 목록</title>
+<script type="text/javascript" src="js/Ajax12.js"></script>
+</head>
+<body>
+<form name="frm">
+입사년 : <input type="text" name="ibsail" id="ibsanyun" size="10" onkeydown="listdown()">
+직원명 : <select name="sel" id="sel" onchange="changeXhr(this)">
+			<option >선택하세요.</option>
+			
+		</select>
+<div id="suggest">suggest</div>
+<hr/>
+<br>
+<div id="disp">관리고객 출력</div>
+</form>
+</body>
+</html>

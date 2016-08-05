@@ -14,7 +14,7 @@ function Play(g){
 	}else if(document.all.RR[1].checked == true ){
 		//alert("JSON누름");
 		xhr = new XMLHttpRequest();
-		xhr.open("post", "ajax9_json.jsp", true);
+		xhr.open("post", "json/ajax9_json.jsp", true);
 		first(gen);
 	}
 }

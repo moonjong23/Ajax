@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>서제스트 문제</title>
+<script type="text/javascript" src="Lastjs/ajaxLastex.js"></script>
+</head>
+<body>
+직원 관리 고객 목록 (suggest로 XML 읽기)<br>
+<form name="frm">
+입사년 : <input type="text" name="ibsail" id="ibsail" onkeydown="sijak1()">
+
+직원명 :
+<select name="sname" id="sname" form="frm"  onChange="javascript:selectEvent(this)">
+  <option value="직원명" selected="selected">직원명</option>
+
+</select>
+</form>
+
+<div id="suggest" style="display:; position : absolute; left:50px; top: 100px;">
+	<div id="suggestList"></div>
+</div>
+<div id="disp" style="display:; position : absolute; left:30px; top: 300px;" >
+<h3>관리고객</h3>
+	<div id="table">
+	
+	</div>
+</div>
+</body>
+</html>
