@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+<script type="text/javascript">
+
+window.onload = function(){
+	
+document.getElementById("btnOk").addEventListener("click", data, false);
+document.getElementById("btnReset").addEventListener("click", Reset, false);
+	
+}
+function data(){
+	
+	/* HTML형식 */
+	var txtone = txt1.value;
+	var txttwo = txt2.value;
+	var jung = /[^0-9+]$/; /* 0~9가 아닐 때 */
+	
+	if (!(txtone.match(jung)) && !(txttwo.match(jung)) ) {
+		document.getElementById("show").innerHTML ="<i>"+ 
+		(parseInt(txtone) + parseInt(txttwo)) +"</i>";	
+	}else{
+	document.getElementById("show").innerHTML ="<i>"+ (txtone + txttwo) +"</i>";	
+	}
+	
+	/* Dom형식 */
+	 re = document.getElementById("show2");
+	 while (re.hasChildNodes()) {
+			re.removeChild(re.childNodes[0])
+		} 
+	 
+	document.getElementById("show2");
+	var aaa = document.getElementById("show2");
+	var ele = document.createElement("i");
+	if (!(txtone.match(jung)) && !(txttwo.match(jung)) ) {
+		var str = document.createTextNode(parseInt(txtone) + parseInt(txttwo));
+	}else{
+		var str = document.createTextNode(txtone+txttwo);
+	}
+	ele.appendChild(str);
+	
+	aaa.appendChild(ele);
+	
+	
+	
+}
+function Reset(){
+	
+	document.getElementById("show").innerText = "";
+		
+	
+	 re = document.getElementById("show2");
+	 
+	while (re.hasChildNodes()) {
+		re.removeChild(re.childNodes[0])
+	} 
+	
+}
+</script>
+</head>
+<body>
+<form name=frm>
+자료1:
+<input type="text" id="txt1" name="t1" /><br>
+자료2:
+<input type="text" id="txt2" name="t2" /><br>
+<input type="button" value="확인" id="btnOk" />
+<input type="reset" value="초기화" id="btnReset" /><br> <!--form 과 reset  -->
+</form>
+결과(innerHTML):
+<div id="show"></div>
+<br>
+결과(dom사용):
+<div id="show2"></div>
+</body>
+</html>

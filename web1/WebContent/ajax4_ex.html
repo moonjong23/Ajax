@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+#cc{
+	background-color: silver;
+}
+#center{
+	background-color: lime;
+}
+tr{
+	text-align: center;
+}
+
+</style>
+<script type="text/javascript">
+
+var xhr;
+
+	window.onload = function(){
+		document.getElementById("btnOk").addEventListener("click", startXhr, false)
+	}
+	
+	function startXhr(){
+		xhr = new XMLHttpRequest();
+		xhr.open("get","http://openapi.seoul.go.kr:8088/sample/json/SeoulLibraryTime/1/5/",true);
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4){
+				if(xhr.status == 200){
+					process();					
+				}else{
+					alert("실패: "+ xhr.status);
+				}
+			}
+		}
+		xhr.send(null);
+	}
+	
+	function process(){
+		var data = xhr.responseText;
+		//alert(data);
+		var parseData = JSON.parse(data);
+		//alert(parseData.SeoulLibraryTime.row.length);
+		var str = "<table border='1'>";
+			str += "<tr id='center'><td>도서관명</td><td>주소</td><td>전화번호</td></tr>"
+		for (var i = 0; i < parseData.SeoulLibraryTime.row.length; i++) {
+			if(i%2!=0){
+				str += "<tr id='cc'>";
+				
+			}else{
+				str += "<tr>";
+			}
+			
+			str += "<td>" + parseData.SeoulLibraryTime.row[i].LBRRY_NAME + "</td>";
+			str += "<td>" + parseData.SeoulLibraryTime.row[i].ADRES + "</td>";
+			str += "<td>" + parseData.SeoulLibraryTime.row[i].TEL_NO + "</td>";
+			str += "</tr>";
+							
+		}
+		str += "</table>";
+		
+		document.getElementById("disp").innerHTML = str;
+	}
+ </script>
+</head>
+<body>
+<button id='btnOk'> 버튼이야 </button>
+<div id='disp'>따리디리다라두</div>
+</body>
+</html>

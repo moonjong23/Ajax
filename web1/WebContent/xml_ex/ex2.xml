@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DTD 문서: XML문서에 제약을 줌 -->
+<!-- 
+리스트 연산자 : ,
+선택 연산자: | 
+사용 빈도 연산자: ?(0 or 1), +(1이상), *(0이상), 기호없음(1)-->
+<!DOCTYPE jikwons[
+	<!ELEMENT jikwons (jikwon*)>
+		<!ELEMENT jikwon (irum+,(jik|gender),pay?)> 
+			<!ELEMENT irum (#PCDATA)>
+			<!ELEMENT jik (#PCDATA)>
+			<!ELEMENT gender (#PCDATA)>
+			<!ELEMENT pay (#PCDATA)>
+]>
+<!--벨리드 다큐먼트?-->
+<jikwons>
+	<jikwon>
+		<irum>심진영</irum>
+		<jik>과장</jik>
+		<pay>8000</pay>
+	</jikwon>
+	<jikwon>
+		<irum>박형민</irum>
+		<gender>남</gender>
+		<pay>6000</pay>
+	</jikwon>
+	<jikwon>
+		<irum>박치기</irum>
+		<gender>여</gender>
+		
+	</jikwon>
+</jikwons>

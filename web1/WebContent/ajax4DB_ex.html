@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>직원 자료 보기</title>
+<script type="text/javascript">
+var xhr;
+
+window.onload=function(){
+		
+    document.all.ss[0].onclick = function(){
+   		startXhr();
+    }
+   	document.all.ss[1].onclick = function(){
+    	startXhr();
+   	}
+    document.all.ss[2].onclick = function(){
+    	startXhr();		
+   	 //alert(document.ff.ss[2].value);  //체크박스의 value값 가져오기.
+    }
+}
+
+
+function startXhr(){
+	xhr = new XMLHttpRequest();
+	xhr.open("get","ajax4DB_ex.jsp", true);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 200){
+				process();
+			}else{
+				alert("요청 실패: " + xhr.status);
+			}
+		}
+	}
+	xhr.send(null);
+}
+
+
+function process(){
+	var data = xhr.responseXML;
+	//alert(data);
+	var sawonNode = data.getElementsByTagName("sawon");
+	var noNode = data.getElementsByTagName("no");
+	var nameNode = data.getElementsByTagName("name");
+	var jikNode = data.getElementsByTagName("jik");
+	var ibsailNode = data.getElementsByTagName("ibsail");
+	var gen = data.getElementsByTagName("gen");
+	//alert(sawonNode.length);
+	var str = "<table border='1'>";
+	str += "<tr><th>사번</th><th>이름</th><th>직급</th><th>입사일</th></tr>";
+	for(var i = 0; i < sawonNode.length; i++){
+		if(gen[i].childNodes[0].nodeValue == "남" && document.all.ss[1].checked){
+			str +="<tr>";
+			str +="<td>" + noNode[i].childNodes[0].nodeValue + "</td>";
+			str +="<td>" + nameNode[i].childNodes[0].nodeValue + "</td>";
+			str +="<td>" + jikNode[i].childNodes[0].nodeValue + "</td>";
+			str +="<td>" + ibsailNode[i].childNodes[0].nodeValue + "</td>";
+			str +="</tr>";
+		}else if(gen[i].childNodes[0].nodeValue == "여" && document.all.ss[2].checked){
+			str +="<tr>";
+			str +="<td>" + noNode[i].childNodes[0].nodeValue + "</td>";
+			str +="<td>" + nameNode[i].childNodes[0].nodeValue + "</td>";
+			str +="<td>" + jikNode[i].childNodes[0].nodeValue + "</td>";
+			str +="<td>" + ibsailNode[i].childNodes[0].nodeValue + "</td>";
+			str +="</tr>";
+		}else if(document.all.ss[0].checked){
+		str +="<tr>";
+		str +="<td>" + noNode[i].childNodes[0].nodeValue + "</td>";
+		str +="<td>" + nameNode[i].childNodes[0].nodeValue + "</td>";
+		str +="<td>" + jikNode[i].childNodes[0].nodeValue + "</td>";
+		str +="<td>" + ibsailNode[i].childNodes[0].nodeValue + "</td>";
+		str +="</tr>";		
+		}
+	}
+	str +="</table>";
+	document.getElementById("disp").innerHTML = str;
+}
+</script>
+</head>
+<body>
+<form name="ff">
+<input type="radio" name="ss" value = "all" checked="true">전체
+<input type="radio" name="ss" value = "남" >남
+<input type="radio" name="ss" value = "여" >여
+<div id='disp'>이곳에 출력</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+a = 10;
+var b = 20;
+
+function func1() {
+	var c = a + b;  // function 안에 있는 var 는 지역변수이다.
+	document.getElementById("show").innerHTML = "<i>기억이 나야한다.</i>" + c;
+	//document.getElementById("show").innerText = "<i>기억이 나야한다.</i>";
+}
+window.onload = function(){/* Callback Function */
+	//alert("문서 로딩이 완료되면 자동으로 수행");
+	//my_btn1 = document.getElementById("btn1");
+	/* my_btn1.onclick = function(){
+		document.getElementById("show").innerHTML = "버튼1 클릭";		
+	} */
+	//my_btn1.onclick = func1; //버튼을 눌렸을 때 func1을 수행
+	//my_btn1.onclick = func1(); //수행 된 내용을 버튼을 눌렀을 때 수행
+	
+	document.getElementById("btn1").onclick = func1;
+	document.getElementById("btn2").addEventListener("click", func2, false);
+	//document.getElementById("btn2").addEventListener("onclick", func1// IE 9버전 이하 );
+	document.getElementById("btn3").addEventListener("click", func3, false);
+	}
+	
+	function func2(){
+		document.getElementById("show2").innerHTML = "스펜테그 이벤트 처리 성공";
+		}
+	function func3(){
+		var abc = document.getElementById("show3");
+		alert(abc.nodeName + " " + abc.childNodes[0].nodeValue + " " +
+				abc.firstChild.nodeValue);/* abc.nodeName:요소의 이름 , 
+				abc.childNodes[0].nodeValue = 요소의 0번째 내용
+				abc.firstChild.nodeValue = 요소의 첫번째 내용*/
+		var ele = document.createElement("i");
+		var str = document.createTextNode("요소 생성");
+		ele.appendChild(str);
+		abc.appendChild(ele);
+	}
+
+</script>
+</head>
+<body>
+<script type="text/javascript">
+a = "결과:";
+b = 40 + 50;
+//alert(a+b);
+</script>
+이벤트 처리<p/>
+<!--  
+<input type="button" value="click1" onclick="alert('good')">
+-->
+<input type="button" value="click1" id="btn1"><br>
+<input type="button" value="click2" id="btn2"><br>
+<span id="hello" style="background-color:yellow">버튼 이외의 요소도 이벤트 장착 가능</span>
+<br/>
+<input type="button" value="click3" id="btn3"><br>
+<br/>
+<hr>
+<div id="show">결과 출력</div>
+<div id="show2">결과 출력</div>
+<div id="show3">결과 출력</div>
+</body>
+</html>
+
+
+
+
+
+

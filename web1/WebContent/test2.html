@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+h2{
+font-family: "궁서"; font-family: italic;
+	} /* 이터널방식(요즘방식)*/
+.my{
+	font-size: 60px; font-family: "돋움";
+	}/*클래스적용 이터널 방식 (.클래스이름) , 중복 가능*/
+#our{
+	color: yellow;
+	}/* id적용 이터널 방식 (#아이디), 중복 불가*/
+</style>
+<link rel="stylesheet" type="text/css" href="css/ex.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+css 연습<p/>
+<h1 style="font-size: 50px; color: blue">월요일</h1> <!-- 스타일(옛날방식:권장하지않음) -->
+<h2 class="my" id="our">화요일</h2>
+<h3>수요일</h3>
+<b class="my">클래스 적용</b>
+	<div>
+		<span> <i>HIHIHIHI</i> <!-- i : italic체 -->
+		</span>
+	</div>
+<i>반가워요</i>
+<h4>목요일</h4>
+<h5>금요일</h5>
+<h6>토요일</h6>
+<br>
+<font size="24" color = "red"> 예전 방식 </font>
+<table border="1" width=300> <!-- 테이블만들기 -->
+<tr>
+	<td center="true">
+		하하
+	</td>
+	<td>호호</td>
+</tr>
+
+<!-- Single button -->
+<div class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Action <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div>
+<!-- Split button -->
+<div class="btn-group">
+  <button type="button" class="btn btn-danger">Action</button>
+  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div>
+</table>
+</body>
+</html>

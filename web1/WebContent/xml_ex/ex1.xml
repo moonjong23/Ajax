@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  이게 주석 -->
+<sawons>
+	<sawon sawon_no="10">
+		<sawon_name>홍길동</sawon_name>
+		<sawon_pay>5000</sawon_pay>
+	</sawon>
+	<sawon sawon_no="20">
+		<sawon_name>&lt;&lt;고길동&gt;&gt;</sawon_name>
+		<sawon_pay>6000</sawon_pay>
+	</sawon>
+	<sawon sawon_no="30">
+		<sawon_name>
+		<![CDATA[<<신길동>>*^^~~!</신길동>]]>
+		</sawon_name>
+		
+		<sawon_pay>6000</sawon_pay>
+	</sawon>
+	
+</sawons>

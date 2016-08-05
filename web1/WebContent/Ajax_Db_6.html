@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>직원정보보기</title>
+<script type="text/javascript">
+var xhr;
+
+
+
+window.onload=function(){
+	/* document.getElementById("btnAll").onclick = function(){
+		startXhr();
+	}
+	document.getElementById("btnB").onclick = function(){
+		
+	}
+	document.getElementById("btnK").onclick = function(){
+		
+	}
+	document.getElementById("btnD").onclick = function(){
+		
+	}
+	document.getElementById("btnS").onclick = function(){
+		
+	} */
+}
+
+function startXhr(){
+	xhr = new XMLHttpRequest();
+	xhr.open("get","json_6.jsp", true);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 200){
+				process();
+			}else{
+				alert("요청 실패: " + xhr.status);
+			}
+		}
+	}
+	xhr.send(null);
+}
+
+function process(){
+	var data = xhr.responseText;
+	//alert(data);
+	var parseData = JSON.parse(data);
+	//alert(parseData);
+	var str = "";
+	for(var i = 0; i < parseData.sawons.length; i++){
+		if(parseData.sawons[i].sawon_jik == jik || jik=="전체"){
+			var buserNum = parseData.sawons[i].buser_num;
+		str+= parseData.sawons[i].sawon_no + " " +
+			"<a href='#' onclick = 'CC("+ buserNum +")'>"+ parseData.sawons[i].sawon_name +"</a>"+ " " +
+			parseData.sawons[i].sawon_jik + " " +
+			parseData.sawons[i].sawon_gen + "<br/>";
+		}
+	}
+	document.getElementById("disp").innerHTML = str;
+}
+
+function CC(cc){
+	var data = xhr.responseText;
+	//alert(data);
+	var parseData = JSON.parse(data);
+	//alert(parseData);
+	var str = "";
+	var cou = 0;
+	for(var i = 0; i < parseData.sawons.length; i++){
+		if(parseData.sawons[i].buser_num == cc){
+			str= parseData.sawons[i].buser_name + " " +
+			 	parseData.sawons[i].buser_tel + "<br/>";
+			 	cou++;
+		}
+	}
+	
+	document.getElementById("disp2").innerHTML = str + "<br/> 인원 수: "+cou+"명";
+}
+
+function btnClick(abc){
+	jik = abc.value;
+		
+	startXhr();
+}
+</script>
+</head>
+<body>
+<form id='ff'>
+직원자료보기<p/>
+<input type='button' id="btnAll" onclick = "btnClick(this)" value="전체">
+<input type='button' id='btnB' onclick = "btnClick(this)" value='부장'>
+<input type='button' id='btnK' onclick = "btnClick(this)" value='과장'>
+<input type='button' id='btnD' onclick = "btnClick(this)" value='대리'>
+<input type='button' id='btnS' onclick = "btnClick(this)" value='사원'>
+<hr/>
+<div id="disp"></div>
+부서정보
+<div id="disp2"></div>
+</form>
+
+
+</body>
+</html>
