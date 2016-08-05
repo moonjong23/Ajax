@@ -24,10 +24,8 @@ window.onload = function(){
 
 	}
 function process() {
-	var datas = xhr.responseText;
-	//alert(data);
+	var datas = xhr.responseText;	
 	var rowData = datas.split(String.fromCharCode(13)); //cr로 구분  자동 배열설정, Askii code 13 = Enter
-	//alert(rowData.length);
 	var str = "";
 	for (var i = 0; i < rowData.length; i++) {
 		var colData = rowData[i].split(","); // ,로 구분
