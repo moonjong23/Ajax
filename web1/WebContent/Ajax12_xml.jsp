@@ -12,8 +12,7 @@ ResultSet rs = null;
 request.setCharacterEncoding("utf-8");
 
 String ibsaDay = request.getParameter("ibsaDay");
-String ibsaDay2 = request.getParameter("ibsaDay2");
-//System.out.println(ibsaDay2);
+//System.out.println(ibsaDay);
 
 try{
 	Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -28,7 +27,7 @@ try{
 				+"from sawon where substr(to_char(sawon_ibsail,'yyyy'),0,2) like ? "
 				+"order by to_char(sawon_ibsail,'yyyy')";
 	pstmt =conn.prepareStatement(sql);
-	pstmt.setString(1, ibsaDay+"%");
+	pstmt.setString(1, ibsaDay+"%%");
 	rs =pstmt.executeQuery();
 	
 	while(rs.next()){

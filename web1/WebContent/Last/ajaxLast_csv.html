@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript">
+var xhr;
+var checkFirst = loopsend = false;
+var lastKeyword = "";
+
+function sijak() {
+	//alert("aa")
+	
+	if(checkFirst == false){
+		setTimeout("sendKeyword()", 2000);
+		loopsend = true;		
+	}	
+}
+
+function sendKeyword() {
+	//alert("kbs");
+	
+	if(loopsend == false) return;
+	
+	var keyWord = document.frm.keyword.value;
+	console.log(keyWord);	
+	if(keyWord == ""){
+		lastKeyword = "";
+		hide("suggest");
+	}else if(keyWord != lastKeyword){
+		lastKeyword = keyWord;
+		
+		if(keyWord != ""){
+			var para = "keyword=" + keyWord;
+			xhr = new XMLHttpRequest();
+			xhr.open("post", "ajaxLast_csv_1.jsp", true)
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4){
+					if(xhr.status == 200){
+						process1();
+					}else{
+						alert("post 요청실패" + xhr.status);
+					}
+				}
+			}
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xhr.send(para);
+		}else{
+			hide("sugeget");			
+		}
+	}
+	setTimeout("sendKeyword()", 2000);		
+}
+
+function process1(){
+	var reData = xhr.responseText;
+	//alert(reData);
+	var result = reData.split("|");
+	//alert("전체 건수 : " + result[0]);
+	//alert("전체 자료 : " + result[1]);	
+	
+	if(result[0] > 0){ //제안된 검색어가 존재할 때
+		var datas = result[1].split(",");
+		var imsi = "";
+		for (var i = 0; i < datas.length; i++) {
+			imsi += "<a href = \"javascript:func1('" + datas[i] + "')\">" + datas[i] + "</a><br>";
+		}		
+		var listView = document.getElementById("suggestList");
+		listView.innerHTML = imsi;
+		show("suggest");	
+	}	
+}
+
+/**
+ * @param data
+ */
+function func1(data){ // 자동완성 보이기
+	sel(data);
+	loopsend = checkFirst  = false;
+	lastKeyword = "";
+	frm.keyword.value = "";
+	frm.keyword.focus();
+	
+	hide("suggest");
+}
+
+function sel(data){ // select box에 사용할 jsp파일 불러오기
+	//alert(data);
+	xhr = new XMLHttpRequest();
+	xhr.open("post", "ajaxLast_csv_2.jsp", true)
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 200){
+				process2();
+			}else{
+				alert("post2 요청실패" + xhr.status);
+			}
+		}
+	}
+	xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xhr.send("ibsail=" + data);
+}
+
+function process2(){ //select box에 집어넣는 함수
+	var reData = xhr.responseText;
+	//alert(reData);
+	var result = reData.split("|");
+	//alert("전체 건수 : " + result[0]);
+	//alert("전체 자료 : " + result[1]);	
+	
+	if(result[0] > 0){ //제안된 검색어가 존재할 때
+		var datas = result[1].split(",");
+		var imsi = "<option>선택하세요</option>";
+		for (var i = 0; i < datas.length; i++) {
+			//alert(datas[i]);
+			imsi += "<option value=\""+ datas[i] +"\">" + datas[i] + "</option>";			
+		}		
+		document.getElementById("select").innerHTML = imsi;		
+	}	
+}
+
+function gogek(name){
+	xhr = new XMLHttpRequest();
+	xhr.open("post", "ajaxLast_csv_3.jsp", true)
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 200){
+				process3();
+			}else{
+				alert("post3 요청실패" + xhr.status);
+			}
+		}
+	}
+	xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xhr.send("name=" + name);
+}
+
+function process3(){ //관리고객 출력함수
+	var reData = xhr.responseText;
+	//alert(reData);
+	var result = reData.split("|");
+	//alert("전체 건수 : " + result[0]);
+	//alert("전체 자료 : " + result[1][1]);
+	
+	if(result[0] > 0){ //제안된 검색어가 존재할 때
+		var datas = result[1].split(",");
+		
+		var str = "<table border='1'>";
+		str += "<tr><th>고객번호</th><th>고객명</th><th>주민번호</th><th>고객전화</th></tr>";		
+		for (var i = 0; i < datas.length; i += 4) {			
+			str += "<tr>";
+			str += "<td>" + datas[i] + "</td>";
+			str += "<td>" + datas[i + 1] + "</td>";
+			str += "<td>" + datas[i + 2] + "</td>";
+			str += "<td>" + datas[i + 3] + "</td>";
+			str += "</tr>";
+		}	
+		str += "</table>";
+		document.getElementById("disp").innerHTML = str;
+	}else if(result[0] == 0){
+		document.getElementById("disp").innerHTML = "";
+	}	
+}
+
+function hide(ele){ //검색어 없으면 숨기기
+	var e = document.getElementById(ele);
+	if(e) e.style.display = "none";	
+}
+
+function show(ele){ //검색어 있으면 숨기기
+	var e = document.getElementById(ele);
+	if(e) e.style.display = "";	
+}
+</script>
+<title>직원 관리 목록</title>
+</head>
+<body>
+<h2>HB 직원 관리 고객 목록 (suggest로 csv파일 읽기)</h2>
+<form name="frm">
+입사년 : <input type="text" name="keyword" id="keyword" onkeydown="sijak()">
+직원명 : <select name="sel" id="select" onchange="gogek(this.value)">
+
+</select>
+<br><br><br><br><br><br><br><br><br>
+<hr>
+</form>
+<div id="suggest" style="display:; position: absolute; left: 70px; top: 90px;">
+	<div id="suggestList"></div>
+</div>
+<div id="disp"></div>
+</body>
+</html>

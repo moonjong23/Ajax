@@ -1,15 +1,14 @@
-var xhr;
+var xhr1, xhr2;
 var para;
-var checkFirst = loopSend = false;
+var loopSend = false;
 var lastKeyword = "";
+var ibsayearNode;
 
 
 function listdown(){
 	//alert("aa");
-	if(checkFirst == false){
 		setTimeout("sendKeyword()",1000);
 		loopSend = true;
-	}
 }
 
 function sendKeyword(){
@@ -20,7 +19,6 @@ function sendKeyword(){
 	
 	if(key == ""){
 		lastKeyword = "";
-		hide("suggest");
 	}else if(key != lastKeyword){
 		lastKeyword = key;
 		
@@ -29,71 +27,72 @@ function sendKeyword(){
 			//alert(para);
 			startXhr();
 		}else{
-			hide("suggest");
+			
 		}
 	}
 	setTimeout("sendKeyword()", 1000);
 }
 
 function startXhr(){
-	xhr = new XMLHttpRequest();
-	xhr.open("post", "Ajax12_xml.jsp", true);
-	xhr.onreadystatechange = function(){
-		if(xhr.readyState == 4){
-			if(xhr.status == 200){
+	xhr1 = new XMLHttpRequest();
+	xhr1.open("post", "Ajax12_xml.jsp", true);
+	xhr1.onreadystatechange = function(){
+		if(xhr1.readyState == 4){
+			if(xhr1.status == 200){
 				suggest();
 			}else{
 				alert("post 요청 실패: " + xhr.status);
 			}
 		}
 	}
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhr.send(para);	
+	xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr1.send(para);	
 }
 function changeXhr(aaa){
 	var v = aaa.value;
 	//alert(v);
-	xhr = new XMLHttpRequest();
-	xhr.open("post", "Ajax12_xml(2).jsp", true);
-	xhr.onreadystatechange = function(){
-		if(xhr.readyState == 4){
-			if(xhr.status == 200){
+	xhr2 = new XMLHttpRequest();
+	xhr2.open("post", "Ajax12_xml(2).jsp", true);
+	xhr2.onreadystatechange = function(){
+		if(xhr2.readyState == 4){
+			if(xhr2.status == 200){
 				process();
 			}else{
 				alert("post 요청 실패: " + xhr.status);
 			}
 		}
 	}
-	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	xhr.send("name=" + v);	
+	xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr2.send("name=" + v);	
 }
 
 function suggest(){
-	var data = xhr.responseXML;
+	var data = xhr1.responseXML;
 	//alert(data);
 	var sawonNode = data.getElementsByTagName("sawon");
-	var ibsayearNode = data.getElementsByTagName("ibsayear");
+	ibsayearNode = data.getElementsByTagName("ibsayear");
 	var yearbefore = "";
 	var str = "";
 	for (var i = 0; i < sawonNode.length; i++) {
-		var ibsaNode = ibsayearNode[i].childNodes[0].nodeValue;
-		if((i == 0) ||(yearbefore != ibsaNode)){ //년도 중복배제
-			str+= "<a href=\"javascript:selectbox('"+ ibsaNode + "')\">" + ibsaNode +"</a><br>";
-			yearbefore = ibsaNode;
+		if((i == 0) ||(yearbefore !=  ibsayearNode[i].childNodes[0].nodeValue)){ //년도 중복배제
+			str+= "<a href=\"javascript:selectbox('"+ ibsayearNode[i].childNodes[0].nodeValue + "')\">" 
+						+  ibsayearNode[i].childNodes[0].nodeValue +"</a><br>";
+			yearbefore =  ibsayearNode[i].childNodes[0].nodeValue;
 		}
 	}
 	document.getElementById("suggest").innerHTML = str;
 }
 
 function selectbox(d){
-	//alert(d); //년도
+	alert(d); //입사년도
 	
-	var data = xhr.responseXML;
+	var data = xhr1.responseXML;
 	var sawonNode = data.getElementsByTagName("sawon");
 	var sawon_nameNode = data.getElementsByTagName("sawon_name");
-	var ibsayearNode = data.getElementsByTagName("ibsayear");
+	ibsayearNode = data.getElementsByTagName("ibsayear");
 	var str = "";
 		str += "<option>선택하세요.</option>";
+		alert(sawonNode.length);
 	for (var i = 0; i < sawonNode.length; i++) {
 		if(ibsayearNode[i].childNodes[0].nodeValue == d){
 			str+= "<option value='"+ sawon_nameNode[i].childNodes[0].nodeValue + "'>";
@@ -101,13 +100,14 @@ function selectbox(d){
 			str+= "</option>";	
 		}
 	}
+	alert(str);
 	document.getElementById("sel").innerHTML= str;		
 }
 
 function process(){
 	//alert("process");
 	
-	var data = xhr.responseXML;
+	var data = xhr2.responseXML;
 	//alert(data);
 	var gogekNode = data.getElementsByTagName("gogek");
 	var gogek_noNode = data.getElementsByTagName("gogek_no");
@@ -129,24 +129,4 @@ function process(){
 	str+="</table>";
 	document.getElementById("disp").innerHTML = str;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
