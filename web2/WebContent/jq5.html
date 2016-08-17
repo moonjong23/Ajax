@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script> <!-- CDN 적용 순서 중요-->
+<script type="text/javascript">
+function tdClick(data){
+	alert(data);
+}
+
+$().ready(function(){
+	$("td").click(function(){ //메소드
+		$("#show").html($(this).text()); //#아이디
+	});
+	
+	$("#dbl").dblclick(function(){
+		$("#show").html($(this).text()); //#아이디
+	});
+	
+	$("#txtA").keydown(function(event){ 
+		$("#txtCode").val(event.keyCode); //#아이디
+	});
+	
+	//이벤트 binding
+	//$("#btn").click(function(){...});
+	$("#btn").bind("click", function(){ //객체와 이벤트 연결
+		alert("버튼 클릭 이벤트 수행");
+		$("#btn").unbind("click"); //객체와 이벤트 연결해제
+	});
+	
+	var count = 0;
+	$("#myArea").bind("mouseenter mouseleave", function(event){ //바인드 복수개 이벤트 등록가능 function(event) 명시!.
+		count++;
+		$("#mResult").text(count + " 회 enter or leave");
+		
+		if(event.type === "mouseenter"){
+			$("#mResult").css("background", "blue");
+		}else if(event.type === "mouseleave"){
+			$("#mResult").css("background", "white");
+		}
+	});
+	
+	//on 메소드
+	/* 
+	$("#btnAdd").click(function(){
+		$("ul").append("<li>list item" + $("li").length + "</li>");
+	});
+	
+	$("li").click(function(){
+		alert($(this).text());
+	});
+	
+	*/
+	$("#btnAdd").on("click", function(){
+		$("ul").append("<li>list item" + $("li").length + "</li>");
+	});
+	
+	$(document).on("click", "li", function(){
+		alert($(this).text());
+	});
+	
+	$("#btnDie").on("click", function(){
+		$(document).off("click", "li");
+	});
+	
+});
+
+
+</script>
+</head>
+<body>
+*** 이벤트 연습 ***</p>
+<table border="1" width="200"> <!-- html5 인라인방식 권장하지 않는다. -->
+	<tr>
+		<td onclick="tdClick('나른한 오후')">kbs</td>
+		<td>mbc</td>
+		<td>sbs</td>
+	</tr>
+</table>
+<br>
+<div id="show"></div>
+<hr>
+<div id="dbl">더블 클릭 대상</div>
+<br>
+키보드 입력:<br>
+<input type="text" id="txtA">
+<input type="text" id="txtCode" readonly="readonly">
+<br><br><br>
+<button id="btn">bind 이벤트 연습</button>
+<p/>
+<span id="myArea" style="background-color: pink">마우스를 올리고 내리기</span>
+<br>
+<div id="mResult">마우스 처리결과</div>
+<p/>
+** 라이브 이벤트 연습 ***<br>
+<div>
+	<ul>
+		<li>list item0</li>
+	</ul>
+	<input type="button" id="btnAdd" value="요소추가">
+	<input type="button" id="btnDie" value="이벤트해제">
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

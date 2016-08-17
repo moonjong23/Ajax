@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>룰루</title>
+<style type="text/css">
+body{
+	background-color: black; color: white;
+}
+a{
+	color: lime;
+}
+#disp_err{
+	color: red;
+}
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script> <!-- CDN 적용 순서 중요-->
+<script type="text/javascript">
+var num = "";
+function goNum(data){
+	num = data;
+	//alert("//" + num);
+}
+$(document).ready(function(){
+	$("#btn").on("click", function(){ //사원 체크
+		if($("#buserSerch").val() == ""){
+			$("#disp1").empty(); //사원테이블 초기화
+			$("#disp2").empty(); //고객테이블 초기화
+			$("#disp_err").text("부서명을 입력하세요");
+			$("#buserSerch").val(""); // 검색창 초기화
+			$("#buserSerch").focus(); // 검색창 포커스
+		}else{
+			$("#disp_err").text(""); //에러메시지 지우기
+			$("#disp1").empty(); //사원테이블 초기화
+			$("#disp2").empty(); //고객테이블 초기화
+			$.ajax({
+				type : "post",
+				url : "jq13_ex1.jsp",
+				data:"buserSerch=" + $("#buserSerch").val(),
+				dataType:"json",
+				success : function(data) {
+					var str = "<table border='1'><tr><th>사번</th><th>직원명</th><th>직급</th><th>관리고객</th></tr>";
+					var count = 0;
+					$.each(data["sawons"], function(index, value){
+						str += "<tr><td>" + value.sawon_no + "</td>";
+						if(value.gogek_no > 0){ //고객수 체크
+							str += "<td><a href='#' id='gogeks' onclick='javascript:goNum(" + value["sawon_no"] + ")'>" + value["sawon_name"] + "</td>";						
+						}else{
+							str += "<td>" + value["sawon_name"] + "</td>";
+						}
+						str += "<td>" + value.sawon_jik + "</td>";
+						str += "<td>" + value.gogek_no + "</td></tr>";
+						count++;
+					});
+					if(count > 0){
+						str += "</table>";
+						$("#disp1").append(str + " 인원 수 : " + count);
+					}else{
+						$("#disp_err").text("찾으시는 부서가 없습니다");
+						$("#buserSerch").val("");
+						$("#buserSerch").focus();
+					}
+				}
+			});
+		}
+	});
+	
+	$(document).on("click", "#gogeks", function(){ //고객체크
+		$("#disp2").empty(); //고객테이블 초기화
+		$.ajax({
+			type : "post",
+			url : "jq13_ex2.jsp",
+			data:"goSerch=" + num, //$(this).text();
+			dataType:"json",
+			success : function(data) {
+				var str = "<table border='1'><tr><th>고객명</th><th>고객전화</th><th>성별</th><th>나이</th></tr>";
+				var count = 0;
+				$.each(data["gogeks"], function(index, value){
+					str += "<tr><td>" + value.gogek_name + "</td>";
+					str += "<td>" + value.gogek_tel + "</td>";
+					str += "<td>" + value.gogek_gen + "</td>";
+					str += "<td>" + value.gogek_age + "</td></tr>";
+					count++;
+				});
+				str += "</table>";
+				$("#disp2").append(str + "고객 수 : " + count);
+			}
+		});
+	});
+});
+
+</script>
+</head>
+<body>
+<h2>부서별 자료</h2>
+<form action="#">
+<label>부서명: </label>
+<input type="text" id="buserSerch" maxlength="5">
+<input type="button" value="확인" id="btn"><br>
+<div id="disp_err"></div>
+</form>
+<hr>
+<div id="disp1"></div><br>
+<div id="disp2"></div>
+</body>
+</html>

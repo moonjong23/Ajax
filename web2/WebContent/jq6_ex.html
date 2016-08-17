@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>문제</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script> <!-- CDN 적용 순서 중요-->
+<script type="text/javascript">
+var name_check = /^[가-힣a-zA-Z]{1,10}$/; //* /^[a-zA-Z]{1,10}$/; 영문 10자만 //* /^[가-힣]{1,10}$/; 한글 10자만
+var su_check = /^[0-9]{1,3}$/;
+
+$(document).ready(function(){  
+	$("#btnOk").on("click", function(){
+		if($("#name").val() === "" || name_check.test($("#name").val()) === false){
+			alert("10자 이내의 문자만 입력하시오");
+			$("#name").val("");
+			$("#name").focus();
+			return false; 
+		}else if($("#kor").val() === "" || su_check.test($("#kor").val()) === false){
+			alert("3자 이내의 숫자만 입력하시오");
+			$("#kor").val("");
+			$("#kor").focus();
+			return false;
+		}else if($("#eng").val() === "" || su_check.test($("#eng").val()) === false){
+			alert("3자 이내의 숫자만 입력하시오");
+			$("#eng").val("");
+			$("#eng").focus();
+			return false;
+		}
+	});
+	
+	$("#btnCancel").on("click", function(){
+		$("#name").val("");
+		$("#kor").val('');
+		$("#eng").val('');
+		$("#name").focus();
+		return false;
+	});
+});
+
+</script>
+</head>
+<body>
+<h2>** 자료 입력 **</h2>
+<form action="jq6_ex.jsp" name="frm">
+학생명 : <input type="text" id="name" name="name"><br>
+국어 : <input type="text" id="kor" name="kor"><br>
+영어 : <input type="text" id="eng" name="eng"><br>
+<input type="submit" id="btnOk" value="처리">
+<input type="button" id="btnCancel" value="취소">
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

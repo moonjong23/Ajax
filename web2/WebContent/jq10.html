@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+.imge{
+	position: absolute; top: 10px; left: 10px;
+}
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script> <!-- CDN 적용 순서 중요-->
+<script type="text/javascript">
+$().ready(function(){
+	$(".imge").hide();
+	
+	$('.imge:first').fadeIn('slow'); // :콜론이 있으면 액션태그
+	
+	var next;
+	
+	$('.imge').click(function(){
+		$(this).fadeIn('slow');
+		//alert($(this).next().length);
+		next = ($(this).next().length)?$(this).next():$('.imge:first');
+		$(this).slideToggle('slow');
+		//$(this).fadeOut('slow');
+		next.fadeIn('slow');
+		
+		event.preventDefault();
+	});
+});
+</script>
+</head>
+<body>
+<a class="imge" href="">
+	<img title="" src="images/p2.jpg" width="300px" height="300px">
+</a>
+<a class="imge" href="">
+	<img title="" src="images/p3.jpg" width="300px" height="300px">
+</a>
+<a class="imge" href="">
+	<img title="" src="images/p4.jpg" width="300px" height="300px">
+</a>
+<a class="imge" href="">
+	<img title="" src="images/p5.jpg" width="300px" height="300px">
+</a>
+<a class="imge" href="">
+	<img title="" src="images/p1.jpg" width="300px" height="300px">
+</a>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+body{
+	background-color: black; color: lime;
+}
+h2, div{
+	padding-left: 100px;
+}
+#disp_error{
+	color: red;
+}
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script> <!-- CDN 적용 순서 중요-->
+<script type="text/javascript">
+$().ready(function() {
+	$("#btn").on("click", function() {
+		if(($("#sangname").val()) === ""){
+			$("#disp_error").text("상품명을 입력하세요");
+			$("#sangname").focus();
+		}else{
+			$("#disp_error").text("");
+			aa();			
+		}
+	});
+	
+	$("#btnall").on("click", function(){
+		$("#disp_error").text("");
+		$("#sangname").val("");
+		aa();
+	});
+function aa(){
+	$("#disp").empty();
+	$.ajax({
+		type : "post",
+		url : "jq13ajax_ex.jsp",
+		data:"sangname=" + $("#sangname").val(),
+		dataType:"xml",
+		success : function(data) {
+			var count = 0;
+			var str = "<table border='1'><tr><th>코드</th><th>상품명</th><th>수량</th><th>단가</th><th>금액</th></tr>";
+			$(data).find("sangdata").each(function(){
+				count++;
+				str += "<tr><td>" + $(this).find("code").text() + "</td>";
+				str += "<td>" + $(this).find("sang").text() + "</td>";
+				str += "<td>" + $(this).find("su").text() + "</td>";
+				str += "<td>" + $(this).find("dan").text() + "</td></th>";
+				str += "<td>" + ($(this).find("su").text() * $(this).find("dan").text()) + "</td></tr>";
+			});
+			if(count > 0){
+				str += "</table>";
+				$("#disp").append(str + "<br>건수 : " + count + "개");
+				$("#sangname").val("");	
+			}else{
+				$("#disp_error").text("해당 자료가 없습니다");
+			}
+		}
+	});	
+}
+
+});
+</script>
+</head>
+<body>
+<h2>상품 정보</h2>
+<form action="#" name="frm">
+<input type="button" id="btnall" name="btnall" value="전체">
+<label> 상품명: </label>
+<input type="text" id="sangname" name="sangname">
+<input type="button" id="btn" name="btn" value="검색">
+</form>
+<br>
+<div id="disp_error"></div><br>
+<div id="disp"></div>
+</body>
+</html>

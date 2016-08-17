@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+#container{
+	font-size: 14px; margin: 10px;
+}
+h2{
+	font-size: 1.3em; margin-bottom: .5em; <!--상대적인--> 
+}
+.label{
+	width: 130px; margin: .5em;
+}
+.myhover{
+	cursor: pointer; background: #ffc;
+}
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script> <!-- CDN 적용 순서 중요-->
+<script type="text/javascript">
+$(document).ready(function(){
+	var speech = $("div.speech");
+	var defaultSize = speech.css("fontSize");
+	//alert(defaultSize);
+	
+	$("#switcher button").click(function(){
+		//alert("aa");
+		//alert(parseFloat('1234abc'));
+		var num = parseFloat(speech.css("fontSize"), 10); //parseFloat 숫자만 취한다 px버림 //10은 10진수
+		//alert(num);
+		
+		switch(this.id){
+		case "btn_large":
+			num += 8; // num *= 1.4; 1.4배씩 곱한다
+			break;
+		case "btn_small":
+			num -= 8; //num /= 1.4;
+			break;
+		default:
+			num = parseFloat(defaultSize, 10);
+		}
+		
+		speech.animate({fontSize:num + 'px'}, 1000); //fast, slow, 0에 가까울수록 빨라진다 1000 //css줄땐 값을 줘야한다.
+	});
+	
+	//문서의 일부 어코디언 효과 (접어두기)
+	var firstPara = $("p:eq(1)");
+	firstPara.hide();
+	
+	$("a.more").click(function(){
+		if(firstPara.is(":hidden")){ // :액션태그 수행과 관련
+			//firstPara.fadeIn("slow");	//fade effect
+			firstPara.slideToggle("slow"); //slideToggle effect
+			$(this).text("read less");
+		}else{
+			//firstPara.fadeOut("slow");
+			firstPara.slideToggle("slow");
+			$(this).text("read more");
+		}
+	});
+	
+	//hover 이벤트 : hover(핸들러1, 핸들러2);
+	$("button, a.more").hover(
+		function(){
+			$(this).addClass("myhover");
+		},
+		function(){
+			$(this).removeClass("myhover");
+		}
+	);
+});
+</script>
+</head>
+<body>
+<div id="container">
+	<h2>텍스트 효과 연습</h2>
+	<div id="switcher">
+		<div class="label">글자크기 변경</div>
+		<button id="btn_default">보통</button>
+		<button id="btn_large">크게</button>
+		<button id="btn_small">작게</button>
+	</div>
+	<div class="speech">
+		<p>‘10-10’ 목표를 내세운 리우 올림픽 한국 선수단</p>
+		<p>한국은 지구 정반대편에 있는 국민들 응원 속에 8일 현재(한국시간)까지 양궁 단체전에서만 두 개의 금메달을 따냈다. 
+		하지만 양궁에서의 완벽한 승리와 다르게 다른 종목에선 기대에 못 미치는 성적을 내고 있는 것도 사실이다. 
+		초반 성적이 대회 전체 성적을 좌우한다고 해도 과언이 아닐 만큼 한국 입장에선 개막 직후 금메달 행진이 중요했다. 
+		그러나 사격 남자 10m 공기권총 진종오와 유도 남자 60㎏급 김원진, 66㎏급 안바울, 73㎏급 안창림, 
+		펜싱 여자 사브르 김지연 등 1~2개의 금메달이 더 나오기를 기대했던 곳에서 낭보가 들려오지 않았다. 
+		팬들의 관심을 한껏 모은 수영 박태환도 줄줄이 예선탈락하며 고개를 숙였다.</p>
+		<a href="#" class="more">read more</a>
+		<p>중반부에도 양궁만 선전하는 양상이 계속될 경우 일본 호주 및 유럽 국가들과 10위권 싸움에 휘말릴 가능성이 크다. 
+		‘10-10’ 목표 달성에 비상이 걸릴 수도 있다. 
+		육상과 사이클 카누 요트 등 10개 이상 금메달이 걸린 한국의 취약 종목들이 중·후반부에 진행되기 때문이다.</p>
+	</div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
